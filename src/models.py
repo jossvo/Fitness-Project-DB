@@ -1,6 +1,6 @@
 import os
 import sys
-from sqlalchemy import Column, ForeignKey, Integer, String
+from sqlalchemy import Column, ForeignKey, Integer, String, Boolean
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship
 from sqlalchemy import create_engine
@@ -8,26 +8,29 @@ from eralchemy2 import render_er
 
 Base = declarative_base()
 
-class Person(Base):
-    __tablename__ = 'person'
-    # Here we define columns for the table person
-    # Notice that each column is also a normal Python instance attribute.
-    id = Column(Integer, primary_key=True)
+class User(Base):
+    __tablename__ = 'user'
+    id = Column(Integer(), primary_key=True)
     name = Column(String(250), nullable=False)
+    alias = Column(String(250), nullable=False)
+    email = Column(String(250), nullable=False)
+    gender = Column(String(250), nullable=False)
+    share_gender = Column(Boolean(), nullable=False)
+    password = Column(String(250), nullable=False)
+    address = Column(String(250), nullable=False)
+    share_adress = Column(Boolean(), nullable=False)
+    weight = Column(String(250), nullable=False)
+    bio = Column(String(250))
 
-class Address(Base):
-    __tablename__ = 'address'
-    # Here we define columns for the table address.
-    # Notice that each column is also a normal Python instance attribute.
-    id = Column(Integer, primary_key=True)
-    street_name = Column(String(250))
-    street_number = Column(String(250))
-    post_code = Column(String(250), nullable=False)
-    person_id = Column(Integer, ForeignKey('person.id'))
-    person = relationship(Person)
+class Coach(Base):
+    __tablename__ = 'coach'
+    id = Column(Integer(), primary_key=True)
+    name = Column(String(250), nullable=False)
+    email = Column(String(250), nullable=False)
+    password = Column(String(250), nullable=False)
+    bio = Column(String(250))
+    socials = Column(String(250), nullable=False)
 
-    def to_dict(self):
-        return {}
 
 ## Draw from SQLAlchemy base
 try:
@@ -36,3 +39,4 @@ try:
 except Exception as e:
     print("There was a problem genering the diagram")
     raise e
+
